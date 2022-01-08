@@ -1,12 +1,12 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
-import { baseQueryWithReAuth } from "services/baseQuery";
+import { baseQueryWithReAuth } from "services/api/baseQuery";
 
 import { ApiUrls } from "constants/ApiUrls";
 import { INoteCategory } from "types/notesTypes";
 
 export const noteCategoriesApi = createApi({
-  reducerPath: "noteCategoriesApi",
+  reducerPath: "note-categories",
   tagTypes: ["NoteCategories"],
   baseQuery: baseQueryWithReAuth,
   endpoints: (build) => ({

@@ -3,7 +3,7 @@ import React from "react";
 import {
   useAddCategoryMutation,
   useGetAllCategoriesQuery,
-} from "services/noteCategoriesApi";
+} from "services/api/noteCategoriesApi";
 
 import Loading from "views/Loading";
 import Error from "views/Error";

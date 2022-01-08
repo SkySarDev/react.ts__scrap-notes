@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, useEffect } from "react";
 
-import { useRegistrationMutation } from "services/usersApi";
+import { useRegistrationMutation } from "services/api/usersApi";
 import { IUserInfo } from "types/usersTypes";
 import { saveToken } from "utils/tokensManager";
 

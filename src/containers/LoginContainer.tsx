@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 
-import { useLoginMutation } from "services/usersApi";
+import { useLoginMutation } from "services/api/usersApi";
 import { UserLoginInfo } from "types/usersTypes";
 
 import Login from "views/Login";

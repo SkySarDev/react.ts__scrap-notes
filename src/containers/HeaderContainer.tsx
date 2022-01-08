@@ -1,7 +1,7 @@
 import React, { FC, ReactElement, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useLazyLogoutQuery } from "services/usersApi";
+import { useLazyLogoutQuery } from "services/api/usersApi";
 
 import Header from "components/Header";
 

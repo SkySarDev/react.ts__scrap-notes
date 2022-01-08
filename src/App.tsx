@@ -2,7 +2,7 @@ import React, { FC, ReactElement } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 
 import { AppRoutes } from "constants/AppRoutes";
-import { useAuthQuery } from "services/usersApi";
+import { useAuthQuery } from "services/api/usersApi";
 
 import HeaderContainer from "containers/HeaderContainer";
 import RegistrationContainer from "containers/RegistrationContainer";
