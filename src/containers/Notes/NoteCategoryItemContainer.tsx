@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import {
   useDeleteCategoryMutation,
   useUpdateCategoryMutation,
-} from "services/noteCategoriesApi";
+} from "services/api/noteCategoriesApi";
 
 import { INoteCategory } from "types/notesTypes";
 

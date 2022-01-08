@@ -1,28 +1,31 @@
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
 
 import { INoteItem } from "types/notesTypes";
-import { ApiUrls } from "constants/ApiUrls";
 
-interface IProps {
-  noteList: INoteItem[];
+import AddNewNoteForm from "components/NoteItems/AddNewNoteForm";
+import NoteItemContainer from "containers/Notes/NoteItemContainer";
+
+interface INoteListProps {
+  noteList?: INoteItem[];
+  category: string;
+  addNote: (data: Omit<INoteItem, "_id">) => void;
 }
 
-const NoteList: FC<IProps> = ({ noteList }) => {
+const NoteList: FC<INoteListProps> = ({ noteList, category, addNote }) => {
   return (
-    <ul style={{ listStyle: "none", padding: 0 }}>
-      {noteList.map((note) => {
-        const { id, title } = note;
+    <>
+      {noteList?.length ? (
+        <ul style={{ listStyle: "none", padding: 0 }}>
+          {noteList.map((note) => (
+            <NoteItemContainer noteItem={note} key={note._id} />
+          ))}
+        </ul>
+      ) : (
+        <div>В данной категории ещё нет заметок</div>
+      )}
 
-        return (
-          <li key={id}>
-            <Link to={`${ApiUrls.NOTES}/${id}`} key={id}>
-              {title}
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
+      <AddNewNoteForm category={category} addNote={addNote} />
+    </>
   );
 };
 

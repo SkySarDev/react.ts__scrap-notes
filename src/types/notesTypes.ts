@@ -4,9 +4,8 @@ export interface INoteCategory {
 }
 
 export interface INoteItem {
-  id: number;
-  categoryId: number;
-  categoryName: string;
+  _id: string;
+  categoryId: string;
   title: string;
   body: string;
 }
