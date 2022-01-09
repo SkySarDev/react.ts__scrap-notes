@@ -21,34 +21,31 @@ const App: FC = (): ReactElement => {
   }
 
   return (
-    <div className="App">
-      <div style={{ marginTop: 20 }}>
-        <Layout>
-          <HeaderContainer user={data?.login} />
-
-          <Routes>
-            {data ? (
-              <>
-                <Route path={"/"} element={<NotesView />} />
-                <Route path="*" element={<Navigate to={"/"} />} />
-              </>
-            ) : (
-              <>
-                <Route
-                  path={AppRoutes.REGISTRATION}
-                  element={<RegistrationContainer refetchAuth={refetch} />}
-                />
-                <Route
-                  path={AppRoutes.LOGIN}
-                  element={<LoginContainer refetchAuth={refetch} />}
-                />
-                <Route path="*" element={<Navigate to={AppRoutes.LOGIN} />} />
-              </>
-            )}
-          </Routes>
-        </Layout>
-      </div>
-    </div>
+    <>
+      <HeaderContainer user={data?.login} />
+      <Layout>
+        <Routes>
+          {data ? (
+            <>
+              <Route path={"/"} element={<NotesView />} />
+              <Route path="*" element={<Navigate to={"/"} />} />
+            </>
+          ) : (
+            <>
+              <Route
+                path={AppRoutes.REGISTRATION}
+                element={<RegistrationContainer refetchAuth={refetch} />}
+              />
+              <Route
+                path={AppRoutes.LOGIN}
+                element={<LoginContainer refetchAuth={refetch} />}
+              />
+              <Route path="*" element={<Navigate to={AppRoutes.LOGIN} />} />
+            </>
+          )}
+        </Routes>
+      </Layout>
+    </>
   );
 };
 
