@@ -1,35 +1,32 @@
-import React, { FC, ReactElement, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { FC, ReactElement } from "react";
+import { Grid, Typography } from "@mui/material";
+
+import { useCurrentCategory } from "hooks/useCurrentCategory";
 
 import NoteCategoryListContainer from "containers/Notes/NoteCategoryListContainer";
 import NoteListContainer from "containers/Notes/NoteListContainer";
 
 const NotesView: FC = (): ReactElement => {
-  const { search } = useLocation();
-  const [currentCategory, setCurrentCategory] = useState<string | null>(null);
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(search);
-
-    setCurrentCategory(searchParams.get("category"));
-  }, [search]);
+  const currentCategory = useCurrentCategory();
 
   return (
-    <div style={{ display: "flex", columnGap: 20 }}>
-      <div style={{ flex: "0 0 300px" }}>
-        <h4>Категории</h4>
+    <Grid container sx={{ mt: 3 }}>
+      <Grid item md={4}>
+        <Typography variant={"subtitle1"} sx={{ pl: 2 }}>
+          Категории
+        </Typography>
         <NoteCategoryListContainer />
-      </div>
+      </Grid>
 
-      <div style={{ flex: "1 1 auto" }}>
-        <h4>Заметки</h4>
+      <Grid item md marginLeft={4}>
+        <Typography variant={"subtitle1"}>Заметки</Typography>
         {currentCategory ? (
           <NoteListContainer category={currentCategory} />
         ) : (
           <div>Выберите категорию</div>
         )}
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 };
 
