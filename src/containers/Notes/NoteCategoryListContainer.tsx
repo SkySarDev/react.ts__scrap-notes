@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, ReactElement } from "react";
 
 import {
   useAddCategoryMutation,
@@ -9,8 +9,8 @@ import Loading from "views/Loading";
 import Error from "views/Error";
 import NoteCategoryList from "components/NoteCategories/NoteCategoryList";
 
-const NoteCategoryListContainer = () => {
-  const { data, error, isLoading } = useGetAllCategoriesQuery();
+const NoteCategoryListContainer: FC = (): ReactElement => {
+  const { data: categoryList, error, isLoading } = useGetAllCategoriesQuery();
   const [addCategory] = useAddCategoryMutation();
 
   if (error) {
@@ -26,7 +26,9 @@ const NoteCategoryListContainer = () => {
     return <Loading />;
   }
 
-  return <NoteCategoryList categoryList={data} addCategory={addCategory} />;
+  return (
+    <NoteCategoryList categoryList={categoryList} addCategory={addCategory} />
+  );
 };
 
 export default NoteCategoryListContainer;
