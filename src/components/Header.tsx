@@ -28,7 +28,9 @@ const Header: FC<IHeaderProps> = ({ user, logout }) => {
 
           {user ? (
             <>
-              <Typography sx={{ fontWeight: 500 }}>{user}</Typography>
+              <Typography variant={"subtitle1"} marginRight={1}>
+                {user}
+              </Typography>
               <IconButton color={"inherit"} size={"small"} onClick={logout}>
                 <LogoutIcon />
               </IconButton>
