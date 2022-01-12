@@ -1,6 +1,8 @@
-import React, { FC, ReactElement, useState } from "react";
+import React, { FC, ReactElement, useEffect, useState } from "react";
+
 import { Box, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+
 import ModalWrapper from "components/Modals/ModalWrapper";
 
 interface IProps {
@@ -9,7 +11,7 @@ interface IProps {
   modalTitle: string;
   buttonText: string;
   categoryName: string;
-  callback: (value: string) => void;
+  onClickCallback: (value: string) => void;
   isLoading: boolean;
 }
 
@@ -19,13 +21,13 @@ const AddOrEditCategoryModal: FC<IProps> = ({
   modalTitle,
   categoryName,
   buttonText,
-  callback,
+  onClickCallback,
   isLoading,
 }): ReactElement => {
-  const [categoryValue, setCategoryValue] = useState<string>(
-    categoryName || ""
-  );
+  const [categoryValue, setCategoryValue] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
+
+  useEffect(() => setCategoryValue(categoryName), [categoryName]);
 
   const onChangeCategoryValue = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -47,8 +49,10 @@ const AddOrEditCategoryModal: FC<IProps> = ({
     if (!value) {
       setError(true);
     } else {
-      callback(value);
+      onClickCallback(value);
     }
+
+    setCategoryValue("");
   };
 
   return (
