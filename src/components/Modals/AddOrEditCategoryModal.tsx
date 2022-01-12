@@ -63,6 +63,7 @@ const AddOrEditCategoryModal: FC<IProps> = ({
     >
       <TextField
         autoComplete="off"
+        autoFocus
         value={categoryValue}
         onChange={onChangeCategoryValue}
         error={error}
