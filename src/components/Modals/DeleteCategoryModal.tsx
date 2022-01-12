@@ -1,5 +1,6 @@
 import React, { FC, ReactElement } from "react";
 import { Box, Button } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 
 import ModalWrapper from "components/Modals/ModalWrapper";
 
@@ -7,14 +8,16 @@ interface IProps {
   isShowModal: boolean;
   handleCloseModal: () => void;
   modalTitle: string;
-  callback: () => void;
+  isLoading: boolean;
+  onClickCallback: () => void;
 }
 
 const DeleteCategoryModal: FC<IProps> = ({
   isShowModal,
   handleCloseModal,
   modalTitle,
-  callback,
+  isLoading,
+  onClickCallback,
 }): ReactElement => {
   return (
     <ModalWrapper
@@ -26,9 +29,13 @@ const DeleteCategoryModal: FC<IProps> = ({
         <Button variant="contained" onClick={handleCloseModal}>
           Отмена
         </Button>
-        <Button variant="contained" onClick={callback}>
+        <LoadingButton
+          variant="contained"
+          loading={isLoading}
+          onClick={onClickCallback}
+        >
           Удалить
-        </Button>
+        </LoadingButton>
       </Box>
     </ModalWrapper>
   );
