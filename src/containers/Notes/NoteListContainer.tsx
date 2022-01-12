@@ -9,13 +9,11 @@ import Error from "views/Error";
 import Loading from "views/Loading";
 import NoteList from "components/NoteItems/NoteList";
 
-interface INoteListContainerProps {
+interface IProps {
   category: string;
 }
 
-const NoteListContainer: FC<INoteListContainerProps> = ({
-  category,
-}): ReactElement => {
+const NoteListContainer: FC<IProps> = ({ category }): ReactElement => {
   const { data, error, isLoading } = useGetNotesByCategoryQuery(category);
   const [addNote] = useAddNoteMutation();
 

@@ -1,13 +1,13 @@
 import React, { FC, ReactElement } from "react";
-import { Grid, Typography } from "@mui/material";
+import { useParams } from "react-router-dom";
 
-import { useCurrentCategory } from "hooks/useCurrentCategory";
+import { Grid, Typography } from "@mui/material";
 
 import NoteCategoryListContainer from "containers/Notes/NoteCategoryListContainer";
 import NoteListContainer from "containers/Notes/NoteListContainer";
 
 const NotesView: FC = (): ReactElement => {
-  const currentCategory = useCurrentCategory();
+  const { category } = useParams();
 
   return (
     <Grid container sx={{ mt: 3 }}>
@@ -20,8 +20,8 @@ const NotesView: FC = (): ReactElement => {
 
       <Grid item md marginLeft={4}>
         <Typography variant={"subtitle1"}>Заметки</Typography>
-        {currentCategory ? (
-          <NoteListContainer category={currentCategory} />
+        {category ? (
+          <NoteListContainer category={category} />
         ) : (
           <div>Выберите категорию</div>
         )}

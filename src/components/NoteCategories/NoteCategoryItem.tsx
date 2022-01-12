@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ListItem, ListItemButton, ListItemText } from "@mui/material";
 
 import { INoteCategory } from "types/notesTypes";
+import { AppRoutes } from "constants/AppRoutes";
 
 import ListItemOptions from "components/ListItemOptions";
 import AddOrEditCategoryModal from "components/Modals/AddOrEditCategoryModal";
@@ -19,8 +20,9 @@ const listItemStyles = {
 
 interface IProps {
   categoryItem: INoteCategory;
-  currentCategory: string | null;
   deleteCategory: (_id: string) => void;
+  deleteLoading: boolean;
+  deleteSuccess: boolean;
   updateCategory: (categoryInfo: INoteCategory) => void;
   updateLoading: boolean;
   updateSuccess: boolean;
@@ -28,13 +30,17 @@ interface IProps {
 
 const NoteCategoryItem: FC<IProps> = ({
   categoryItem,
-  currentCategory,
   deleteCategory,
+  deleteLoading,
+  deleteSuccess,
   updateCategory,
   updateLoading,
   updateSuccess,
 }) => {
+  const navigate = useNavigate();
+  const { category } = useParams();
   const { _id, name } = categoryItem;
+  const isCurrenCategory = category === _id;
   const [modalDeleteShow, setModalDeleteShow] = useState<boolean>(false);
   const [modalEditShow, setModalEditShow] = useState<boolean>(false);
 
@@ -60,7 +66,15 @@ const NoteCategoryItem: FC<IProps> = ({
     if (updateSuccess) {
       editItemCloseModal();
     }
-  }, [updateSuccess]);
+
+    if (deleteSuccess) {
+      deleteItemCloseModal();
+
+      if (isCurrenCategory) {
+        navigate(AppRoutes.NOTES);
+      }
+    }
+  }, [deleteSuccess, updateSuccess]);
 
   return (
     <>
@@ -77,8 +91,8 @@ const NoteCategoryItem: FC<IProps> = ({
       >
         <ListItemButton
           component={Link}
-          to={`?category=${_id}`}
-          selected={currentCategory === _id}
+          to={`${AppRoutes.NOTES}/${_id}`}
+          selected={isCurrenCategory}
         >
           <ListItemText>{name}</ListItemText>
         </ListItemButton>
@@ -98,6 +112,7 @@ const NoteCategoryItem: FC<IProps> = ({
         isShowModal={modalDeleteShow}
         handleCloseModal={deleteItemCloseModal}
         modalTitle={"Удалить категорию?"}
+        isLoading={deleteLoading}
         callback={deleteItem}
       />
     </>

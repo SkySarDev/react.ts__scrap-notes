@@ -11,14 +11,13 @@ import NoteCategoryItem from "components/NoteCategories/NoteCategoryItem";
 
 interface IProps {
   categoryItem: INoteCategory;
-  currentCategory: string | null;
 }
 
-const NoteCategoryItemContainer: FC<IProps> = ({
-  categoryItem,
-  currentCategory,
-}) => {
-  const [deleteCategory] = useDeleteCategoryMutation();
+const NoteCategoryItemContainer: FC<IProps> = ({ categoryItem }) => {
+  const [
+    deleteCategory,
+    { isLoading: deleteLoading, isSuccess: deleteSuccess },
+  ] = useDeleteCategoryMutation();
   const [
     updateCategory,
     { isLoading: updateLoading, isSuccess: updateSuccess },
@@ -27,8 +26,9 @@ const NoteCategoryItemContainer: FC<IProps> = ({
   return (
     <NoteCategoryItem
       categoryItem={categoryItem}
-      currentCategory={currentCategory}
       deleteCategory={deleteCategory}
+      deleteLoading={deleteLoading}
+      deleteSuccess={deleteSuccess}
       updateCategory={updateCategory}
       updateLoading={updateLoading}
       updateSuccess={updateSuccess}

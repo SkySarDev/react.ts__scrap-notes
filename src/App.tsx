@@ -27,8 +27,12 @@ const App: FC = (): ReactElement => {
         <Routes>
           {data ? (
             <>
-              <Route path={"/"} element={<NotesView />} />
-              <Route path="*" element={<Navigate to={"/"} />} />
+              <Route path={AppRoutes.NOTES} element={<NotesView />} />
+              <Route
+                path={`${AppRoutes.NOTES}/:category`}
+                element={<NotesView />}
+              />
+              <Route path="*" element={<Navigate to={AppRoutes.NOTES} />} />
             </>
           ) : (
             <>
