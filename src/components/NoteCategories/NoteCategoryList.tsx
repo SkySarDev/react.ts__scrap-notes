@@ -1,49 +1,72 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
+import { Box, Button, List } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 import { INoteCategory } from "types/notesTypes";
 
 import NoteCategoryItemContainer from "containers/Notes/NoteCategoryItemContainer";
+import AddOrEditCategoryModal from "components/Modals/AddOrEditCategoryModal";
+import { useNavigate } from "react-router-dom";
+import { AppRoutes } from "constants/AppRoutes";
 
-interface IProps {
+interface INoteCategoryListProps {
   categoryList?: INoteCategory[];
   addCategory: (value: Omit<INoteCategory, "_id">) => void;
+  addCategoryLoading: boolean;
+  newCategoryId?: string;
 }
 
-const NoteCategoryList: FC<IProps> = ({ categoryList, addCategory }) => {
-  const [newCategoryValue, setNewCategoryValue] = useState("");
+const NoteCategoryList: FC<INoteCategoryListProps> = ({
+  categoryList,
+  addCategory,
+  addCategoryLoading,
+  newCategoryId,
+}) => {
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const onChangeNewCategoryValue = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setNewCategoryValue(e.target.value);
-  };
+  const handleModalOpen = (): void => setIsModalOpen(true);
+  const handleModalClose = (): void => setIsModalOpen(false);
+  const handleAddCategory = (value: string): void =>
+    addCategory({ name: value });
 
-  const onClickAddCategory = () => {
-    addCategory({ name: newCategoryValue.trim() });
-    setNewCategoryValue("");
-  };
+  useEffect(() => {
+    if (newCategoryId) {
+      handleModalClose();
+      navigate(`${AppRoutes.NOTES}/${newCategoryId}`);
+    }
+  }, [newCategoryId]);
 
   return (
     <>
       {categoryList?.length ? (
-        <ul style={{ listStyle: "none", padding: 0 }}>
+        <List>
           {categoryList.map((categoryItem) => (
             <NoteCategoryItemContainer
               key={categoryItem._id}
               categoryItem={categoryItem}
             />
           ))}
-        </ul>
+        </List>
       ) : (
         <div>Нет категорий</div>
       )}
 
-      <input
-        type="text"
-        value={newCategoryValue}
-        onChange={onChangeNewCategoryValue}
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Button startIcon={<AddIcon />} onClick={handleModalOpen}>
+          Добавить категорию
+        </Button>
+      </Box>
+
+      <AddOrEditCategoryModal
+        isShowModal={isModalOpen}
+        handleCloseModal={handleModalClose}
+        modalTitle={"Добавление категории"}
+        buttonText={"Добавить"}
+        categoryName={""}
+        onClickCallback={handleAddCategory}
+        isLoading={addCategoryLoading}
       />
-      <button onClick={onClickAddCategory}>Добавить категорию</button>
     </>
   );
 };

@@ -11,7 +11,10 @@ import NoteCategoryList from "components/NoteCategories/NoteCategoryList";
 
 const NoteCategoryListContainer: FC = (): ReactElement => {
   const { data: categoryList, error, isLoading } = useGetAllCategoriesQuery();
-  const [addCategory] = useAddCategoryMutation();
+  const [
+    addCategory,
+    { data: newCategoryData, isLoading: addCategoryLoading },
+  ] = useAddCategoryMutation();
 
   if (error) {
     const errorMessage =
@@ -27,7 +30,12 @@ const NoteCategoryListContainer: FC = (): ReactElement => {
   }
 
   return (
-    <NoteCategoryList categoryList={categoryList} addCategory={addCategory} />
+    <NoteCategoryList
+      categoryList={categoryList}
+      addCategory={addCategory}
+      newCategoryId={newCategoryData?._id}
+      addCategoryLoading={addCategoryLoading}
+    />
   );
 };
 
