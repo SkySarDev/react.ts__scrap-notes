@@ -5,11 +5,11 @@ import { AppRoutes } from "constants/AppRoutes";
 import { useAuthQuery } from "services/api/usersApi";
 
 import HeaderContainer from "containers/HeaderContainer";
+import NotesMainContainer from "containers/Notes/NotesMainContainer";
 import RegistrationContainer from "containers/RegistrationContainer";
 import LoginContainer from "containers/LoginContainer";
 import Loading from "views/Loading";
 import Layout from "components/Layout";
-import NotesView from "views/NotesView";
 
 import "./App.css";
 
@@ -27,10 +27,10 @@ const App: FC = (): ReactElement => {
         <Routes>
           {data ? (
             <>
-              <Route path={AppRoutes.NOTES} element={<NotesView />} />
+              <Route path={AppRoutes.NOTES} element={<NotesMainContainer />} />
               <Route
                 path={`${AppRoutes.NOTES}/:category`}
-                element={<NotesView />}
+                element={<NotesMainContainer />}
               />
               <Route path="*" element={<Navigate to={AppRoutes.NOTES} />} />
             </>
