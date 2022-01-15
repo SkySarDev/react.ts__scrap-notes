@@ -29,7 +29,7 @@ const NoteCategoryItem: FC<IProps> = ({
   showModalEdit,
   showModalDelete,
 }) => {
-  const { _id, name } = categoryItem;
+  const { _id, title } = categoryItem;
 
   return (
     <>
@@ -49,7 +49,7 @@ const NoteCategoryItem: FC<IProps> = ({
           to={`${AppRoutes.NOTES}/${_id}`}
           selected={isCurrenCategory}
         >
-          <ListItemText>{name}</ListItemText>
+          <ListItemText>{title}</ListItemText>
         </ListItemButton>
       </ListItem>
     </>

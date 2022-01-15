@@ -34,7 +34,9 @@ const NoteCategoriesBlock: FC<IProps> = ({
           (data?.length ? (
             <NoteCategoryList categoryList={data} />
           ) : (
-            <Alert severity="warning">Пока нет ни одной категории</Alert>
+            <Alert severity="warning">
+              Вы ещё не создали ни одной категории
+            </Alert>
           ))}
       </Paper>
     </>

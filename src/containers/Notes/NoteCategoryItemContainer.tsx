@@ -6,11 +6,11 @@ import {
   useUpdateCategoryMutation,
 } from "services/api/noteCategoriesApi";
 import { AppRoutes } from "constants/AppRoutes";
-import { INoteCategory } from "types/notesTypes";
+import { IFormAddNotesValues, INoteCategory } from "types/notesTypes";
 
 import NoteCategoryItem from "components/NoteCategories/NoteCategoryItem";
-import AddOrEditCategoryModal from "components/Modals/AddOrEditCategoryModal";
 import DeleteCategoryModal from "components/Modals/DeleteCategoryModal";
+import FormAddNotesModal from "components/Modals/FormAddNotesModal";
 
 interface IProps {
   categoryItem: INoteCategory;
@@ -33,11 +33,11 @@ const NoteCategoryItemContainer: FC<IProps> = ({ categoryItem }) => {
 
   const deleteItem = () => deleteCategory(categoryItem._id);
 
-  const updateItem = (newCategoryName: string): void => {
-    if (categoryItem.name !== newCategoryName) {
+  const updateItem = (data: IFormAddNotesValues): void => {
+    if (categoryItem.title !== data.title) {
       updateCategory({
         _id: categoryItem._id,
-        name: newCategoryName,
+        title: data.title,
       });
     }
 
@@ -77,14 +77,14 @@ const NoteCategoryItemContainer: FC<IProps> = ({ categoryItem }) => {
         onClickCallback={deleteItem}
       />
 
-      <AddOrEditCategoryModal
+      <FormAddNotesModal
         isShowModal={isShowModalEdit}
         handleCloseModal={hideModalEdit}
+        formValues={{ title: categoryItem.title }}
+        submitCallback={updateItem}
         modalTitle={"Редактирование категории"}
         buttonText={"Сохранить"}
-        categoryName={categoryItem.name}
         isLoading={updateCategoryUtils.isLoading}
-        onClickCallback={updateItem}
       />
     </>
   );
