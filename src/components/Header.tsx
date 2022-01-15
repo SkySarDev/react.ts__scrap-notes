@@ -22,8 +22,14 @@ const Header: FC<IHeaderProps> = ({ user, logout }) => {
     <AppBar position={"static"}>
       <Container maxWidth={"md"}>
         <Toolbar disableGutters>
-          <Typography variant={"h6"} sx={{ flexGrow: 1 }}>
-            Scrap Notes
+          <Typography
+            variant={"h6"}
+            sx={{
+              flexGrow: 1,
+              "&& a": { color: "rgb(255, 255, 255)", textDecoration: "none" },
+            }}
+          >
+            <Link to={AppRoutes.NOTES}>Scrap Notes</Link>
           </Typography>
 
           {user ? (
