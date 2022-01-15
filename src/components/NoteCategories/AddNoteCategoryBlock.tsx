@@ -5,16 +5,12 @@ import { Box, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 import { AppRoutes } from "constants/AppRoutes";
-import {
-  AddNewCategoryDataType,
-  IAddCategoryUtils,
-  IFormAddNotesValues,
-} from "types/notesTypes";
+import { IAddCategoryUtils, IFormAddNotesValues } from "types/notesTypes";
 
 import FormAddNotesModal from "components/Modals/FormAddNotesModal";
 
 interface IProps {
-  addNewCategory: (data: AddNewCategoryDataType) => void;
+  addNewCategory: (data: IFormAddNotesValues) => void;
   addCategoryUtils: IAddCategoryUtils;
 }
 
@@ -31,15 +27,15 @@ const AddNoteCategoryBlock: FC<IProps> = ({
   const handleModalClose = (): void => setModalOpen(false);
 
   const handleAddCategory = (data: IFormAddNotesValues): void => {
-    addNewCategory({ title: data.title });
+    addNewCategory(data);
   };
 
   useEffect(() => {
-    if (newCategoryId) {
-      navigate(`${AppRoutes.NOTES}/${newCategoryId}`);
-    }
+    if (error || newCategoryId) {
+      handleModalClose();
 
-    handleModalClose();
+      newCategoryId && navigate(`${AppRoutes.NOTES}/${newCategoryId}`);
+    }
   }, [error, newCategoryId]);
 
   return (

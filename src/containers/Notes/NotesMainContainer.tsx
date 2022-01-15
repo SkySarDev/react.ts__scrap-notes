@@ -3,7 +3,7 @@ import { AlertColor } from "@mui/material";
 
 import { noteCategoriesApi } from "services/api/noteCategoriesApi";
 import { noteItemsApi } from "services/api/noteItemsApi";
-import { AddNewCategoryDataType, IFormAddNotesValues } from "types/notesTypes";
+import { IFormAddNotesValues } from "types/notesTypes";
 import { useGetErrorMessage } from "hooks/useGetErrorMessage";
 
 import NotesMainView from "views/NotesMainView";
@@ -35,8 +35,8 @@ const NotesMainContainer: FC = (): ReactElement => {
     setPopupState({ ...popupState, isShow: false });
   };
 
-  const addNewCategory = (data: AddNewCategoryDataType) => {
-    addCategoryToDB(data);
+  const addNewCategory = (data: IFormAddNotesValues) => {
+    addCategoryToDB({ title: data.title });
   };
 
   const addNewNote = (data: IFormAddNotesValues) => {

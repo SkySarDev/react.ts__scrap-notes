@@ -2,7 +2,6 @@ import React, { FC, ReactElement } from "react";
 import { Grid } from "@mui/material";
 
 import {
-  AddNewCategoryDataType,
   IAddCategoryUtils,
   IAddNoteUtils,
   ICategoryListData,
@@ -19,7 +18,7 @@ interface IProps {
   currentCategory?: string;
   categoryListData: ICategoryListData;
   noteListData: INoteListData;
-  addNewCategory: (data: AddNewCategoryDataType) => void;
+  addNewCategory: (data: IFormAddNotesValues) => void;
   addCategoryUtils: IAddCategoryUtils;
   addNewNote: (data: IFormAddNotesValues) => void;
   addNoteUtils: IAddNoteUtils;
