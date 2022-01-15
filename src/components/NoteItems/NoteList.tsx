@@ -1,30 +1,32 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 import { INoteItem } from "types/notesTypes";
 
-import AddNewNoteForm from "components/NoteItems/AddNewNoteForm";
 import NoteItemContainer from "containers/Notes/NoteItemContainer";
 
-interface INoteListProps {
-  noteList?: INoteItem[];
-  category: string;
-  addNote: (data: Omit<INoteItem, "_id">) => void;
+interface IProps {
+  noteList: INoteItem[];
+  currentCategory?: string;
 }
 
-const NoteList: FC<INoteListProps> = ({ noteList, category, addNote }) => {
+const NoteList: FC<IProps> = ({ noteList, currentCategory }) => {
+  const [expandedNote, setExpandedNote] = useState<string | false>(false);
+
+  const changeExpandedNote = (value: string | false): void =>
+    setExpandedNote(value);
+
+  useEffect(() => setExpandedNote(false), [currentCategory]);
+
   return (
     <>
-      {noteList?.length ? (
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {noteList.map((note) => (
-            <NoteItemContainer noteItem={note} key={note._id} />
-          ))}
-        </ul>
-      ) : (
-        <div>В данной категории ещё нет заметок</div>
-      )}
-
-      <AddNewNoteForm category={category} addNote={addNote} />
+      {noteList.map((note) => (
+        <NoteItemContainer
+          key={note._id}
+          noteItem={note}
+          expandedNote={expandedNote}
+          changeExpandedNote={changeExpandedNote}
+        />
+      ))}
     </>
   );
 };

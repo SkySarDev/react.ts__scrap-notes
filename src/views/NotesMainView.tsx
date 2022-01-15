@@ -1,30 +1,39 @@
 import React, { FC, ReactElement } from "react";
-import { useParams } from "react-router-dom";
-import { Grid, Typography, Alert } from "@mui/material";
+import { Grid } from "@mui/material";
 
 import {
   AddNewCategoryDataType,
   IAddCategoryUtils,
+  IAddNoteUtils,
   ICategoryListData,
+  IFormAddNotesValues,
+  INoteListData,
 } from "types/notesTypes";
 
-import NoteListContainer from "containers/Notes/NoteListContainer";
 import NoteCategoriesBlock from "components/NoteCategories/NoteCategoriesBlock";
 import AddNoteCategoryBlock from "components/NoteCategories/AddNoteCategoryBlock";
+import NoteItemsBlock from "components/NoteItems/NoteItemsBlock";
+import AddNoteItemBlock from "components/NoteItems/AddNoteItemBlock";
 
 interface IProps {
+  currentCategory?: string;
   categoryListData: ICategoryListData;
+  noteListData: INoteListData;
   addNewCategory: (data: AddNewCategoryDataType) => void;
   addCategoryUtils: IAddCategoryUtils;
+  addNewNote: (data: IFormAddNotesValues) => void;
+  addNoteUtils: IAddNoteUtils;
 }
 
 const NotesMainView: FC<IProps> = ({
+  currentCategory,
   categoryListData,
+  noteListData,
   addNewCategory,
   addCategoryUtils,
+  addNewNote,
+  addNoteUtils,
 }): ReactElement => {
-  const { category } = useParams();
-
   return (
     <Grid container sx={{ mt: 3, columnGap: 3 }}>
       <Grid item md={4}>
@@ -36,13 +45,12 @@ const NotesMainView: FC<IProps> = ({
       </Grid>
 
       <Grid item md>
-        <Typography variant={"subtitle1"} sx={{ textAlign: "center" }}>
-          Заметки
-        </Typography>
-        {category ? (
-          <NoteListContainer category={category} />
-        ) : (
-          <Alert severity="warning">Выберите категорию</Alert>
+        <NoteItemsBlock noteListData={noteListData} />
+        {currentCategory && (
+          <AddNoteItemBlock
+            addNewNote={addNewNote}
+            addNoteUtils={addNoteUtils}
+          />
         )}
       </Grid>
     </Grid>

@@ -3,18 +3,18 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQueryWithReAuth } from "services/api/baseQuery";
 
 import { ApiUrls } from "constants/ApiUrls";
-import { INoteItem } from "types/notesTypes";
+import { AddNewNoteDataType, INoteItem } from "types/notesTypes";
 
 export const noteItemsApi = createApi({
   reducerPath: "note-items",
   tagTypes: ["NoteItems"],
   baseQuery: baseQueryWithReAuth,
   endpoints: (builder) => ({
-    getNotesByCategory: builder.query<INoteItem[], string>({
-      query: (categoryId) => ({ url: `${ApiUrls.NOTE_ITEMS}/${categoryId}` }),
+    getAllNotes: builder.query<INoteItem[], void>({
+      query: () => ({ url: ApiUrls.NOTE_ITEMS }),
       providesTags: () => ["NoteItems"],
     }),
-    addNote: builder.mutation<INoteItem, Omit<INoteItem, "_id">>({
+    addNote: builder.mutation<INoteItem, AddNewNoteDataType>({
       query: (body) => ({ url: ApiUrls.NOTE_ITEMS, method: "POST", body }),
       invalidatesTags: () => ["NoteItems"],
     }),
@@ -25,8 +25,4 @@ export const noteItemsApi = createApi({
   }),
 });
 
-export const {
-  useGetNotesByCategoryQuery,
-  useAddNoteMutation,
-  useDeleteNoteMutation,
-} = noteItemsApi;
+export const { useDeleteNoteMutation } = noteItemsApi;

@@ -2,11 +2,13 @@ import React, { FC, ReactElement, useEffect, useState } from "react";
 import { AlertColor } from "@mui/material";
 
 import { noteCategoriesApi } from "services/api/noteCategoriesApi";
-import { AddNewCategoryDataType } from "types/notesTypes";
+import { noteItemsApi } from "services/api/noteItemsApi";
+import { AddNewCategoryDataType, IFormAddNotesValues } from "types/notesTypes";
+import { useGetErrorMessage } from "hooks/useGetErrorMessage";
 
 import NotesMainView from "views/NotesMainView";
 import PopupMessage from "components/UI/PopupMessage";
-import { useGetErrorMessage } from "hooks/useGetErrorMessage";
+import { useParams } from "react-router-dom";
 
 interface IPopupState {
   isShow: boolean;
@@ -15,9 +17,12 @@ interface IPopupState {
 }
 
 const NotesMainContainer: FC = (): ReactElement => {
+  const { category } = useParams();
   const categoryListData = noteCategoriesApi.useGetAllCategoriesQuery();
   const [addCategoryToDB, addCategoryUtils] =
     noteCategoriesApi.useAddCategoryMutation();
+  const noteListData = noteItemsApi.useGetAllNotesQuery();
+  const [addNoteToDB, addNoteUtils] = noteItemsApi.useAddNoteMutation();
 
   const [popupState, setPopupState] = useState<IPopupState>({
     isShow: false,
@@ -32,6 +37,13 @@ const NotesMainContainer: FC = (): ReactElement => {
 
   const addNewCategory = (data: AddNewCategoryDataType) => {
     addCategoryToDB(data);
+  };
+
+  const addNewNote = (data: IFormAddNotesValues) => {
+    if (category) {
+      const { title, body } = data;
+      addNoteToDB({ title, body, categoryId: category });
+    }
   };
 
   useEffect(() => {
@@ -55,9 +67,13 @@ const NotesMainContainer: FC = (): ReactElement => {
   return (
     <>
       <NotesMainView
+        currentCategory={category}
         categoryListData={categoryListData}
+        noteListData={noteListData}
         addNewCategory={addNewCategory}
         addCategoryUtils={addCategoryUtils}
+        addNewNote={addNewNote}
+        addNoteUtils={addNoteUtils}
       />
 
       <PopupMessage
