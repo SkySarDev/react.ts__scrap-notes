@@ -8,5 +8,5 @@ export const filterNotesByCategory = (
 };
 
 export const lastNotesSortByDate = (array: INoteItem[]): INoteItem[] => {
-  return [...array].sort((a, b) => b.dateCreate - a.dateCreate).slice(0, -6);
+  return [...array].sort((a, b) => b.dateCreate - a.dateCreate).slice(0, 10);
 };
