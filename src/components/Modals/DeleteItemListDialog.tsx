@@ -12,7 +12,7 @@ interface IProps {
   onClickCallback: () => void;
 }
 
-const DeleteCategoryModal: FC<IProps> = ({
+const DeleteItemListDialog: FC<IProps> = ({
   isShowModal,
   handleCloseModal,
   modalTitle,
@@ -41,4 +41,4 @@ const DeleteCategoryModal: FC<IProps> = ({
   );
 };
 
-export default DeleteCategoryModal;
+export default DeleteItemListDialog;
