@@ -7,15 +7,6 @@ import { AppRoutes } from "constants/AppRoutes";
 
 import ListItemOptions from "components/ListItemOptions";
 
-const listItemStyles = {
-  "&:hover": {
-    "&& button": {
-      opacity: 1,
-      transition: "opacity 1s",
-    },
-  },
-};
-
 interface IProps {
   categoryItem: INoteCategory;
   showModalEdit: () => void;
@@ -36,7 +27,6 @@ const NoteCategoryItem: FC<IProps> = ({
       <ListItem
         disablePadding
         disableGutters
-        sx={listItemStyles}
         secondaryAction={
           <ListItemOptions
             deleteItem={showModalDelete}

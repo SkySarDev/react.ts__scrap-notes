@@ -7,7 +7,10 @@ interface IProps {
   editItem: () => void;
 }
 
-const ListItemOptions: FC<IProps> = ({deleteItem, editItem}): ReactElement => {
+const ListItemOptions: FC<IProps> = ({
+  deleteItem,
+  editItem,
+}): ReactElement => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -19,12 +22,12 @@ const ListItemOptions: FC<IProps> = ({deleteItem, editItem}): ReactElement => {
   };
 
   const handleEditItem = () => {
-    editItem()
+    editItem();
     handleClose();
   };
 
   const handleDeleteItem = () => {
-    deleteItem()
+    deleteItem();
     handleClose();
   };
 
@@ -33,7 +36,11 @@ const ListItemOptions: FC<IProps> = ({deleteItem, editItem}): ReactElement => {
       <IconButton
         aria-label={"Опции"}
         onClick={handleMenu}
-        sx={{ mr: 1, opacity: 0, transition: "opacity 0.5s" }}
+        sx={{
+          opacity: 0.5,
+          transition: "opacity 0.5s",
+          "&:hover": { opacity: 1 },
+        }}
       >
         <MoreVertIcon />
       </IconButton>

@@ -49,7 +49,7 @@ const AddNoteCategoryBlock: FC<IProps> = ({
       <FormAddNotesModal
         isShowModal={isModalOpen}
         handleCloseModal={handleModalClose}
-        formValues={{ title: "" }}
+        formValues={{ title: "", body: null }}
         submitCallback={handleAddCategory}
         modalTitle={"Добавление категории"}
         buttonText={"Добавить"}

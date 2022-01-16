@@ -2,10 +2,10 @@ import React, { FC, ReactElement } from "react";
 import { Alert, Paper, Typography } from "@mui/material";
 
 import { ICategoryListData } from "types/notesTypes";
+import { parseResponseErrorMessage } from "utils/parseResponseErrorMessage";
 
 import NoteCategoryList from "components/NoteCategories/NoteCategoryList";
 import LoadingSpinner from "components/UI/LoadingSpinner";
-import { useGetErrorMessage } from "hooks/useGetErrorMessage";
 
 interface IProps {
   categoryListData: ICategoryListData;
@@ -15,9 +15,9 @@ const NoteCategoriesBlock: FC<IProps> = ({
   categoryListData,
 }): ReactElement => {
   const { data, error, isLoading } = categoryListData;
-  const getErrorMessage = useGetErrorMessage();
   const errorMessage =
-    error && getErrorMessage(error, "Ошибка получения списка категорий");
+    error &&
+    parseResponseErrorMessage(error, "Ошибка получения списка категорий");
 
   return (
     <>
