@@ -7,7 +7,6 @@ import { PopupContext } from "store/popupContext";
 import { usePopupNoticeState } from "hooks/usePopupNoticeState";
 
 import HeaderContainer from "containers/HeaderContainer";
-import NotesMainContainer from "containers/Notes/NotesMainContainer";
 import RegistrationContainer from "containers/RegistrationContainer";
 import LoginContainer from "containers/LoginContainer";
 import Loading from "views/Loading";
@@ -15,6 +14,7 @@ import Layout from "components/Layout";
 import PopupNotice from "components/UI/PopupNotice";
 
 import "./App.css";
+import NotesMainView from "views/NotesMainView";
 
 const App: FC = (): ReactElement => {
   const { data, isLoading, refetch } = useAuthQuery();
@@ -31,10 +31,10 @@ const App: FC = (): ReactElement => {
         <Routes>
           {data ? (
             <>
-              <Route path={AppRoutes.NOTES} element={<NotesMainContainer />} />
+              <Route path={AppRoutes.NOTES} element={<NotesMainView />} />
               <Route
                 path={`${AppRoutes.NOTES}/:category`}
-                element={<NotesMainContainer />}
+                element={<NotesMainView />}
               />
               <Route path="*" element={<Navigate to={AppRoutes.NOTES} />} />
             </>

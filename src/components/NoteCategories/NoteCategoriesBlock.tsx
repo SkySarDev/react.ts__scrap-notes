@@ -1,44 +1,40 @@
 import React, { FC, ReactElement } from "react";
-import { Alert, Paper, Typography } from "@mui/material";
+import { Alert, Box, Button, Paper } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 import { ICategoryListData } from "types/notesTypes";
-import { parseResponseErrorMessage } from "utils/parseResponseErrorMessage";
 
 import NoteCategoryList from "components/NoteCategories/NoteCategoryList";
 import LoadingSpinner from "components/UI/LoadingSpinner";
 
 interface IProps {
   categoryListData: ICategoryListData;
+  openModalAddCategory: () => void;
 }
 
 const NoteCategoriesBlock: FC<IProps> = ({
   categoryListData,
+  openModalAddCategory,
 }): ReactElement => {
-  const { data, error, isLoading } = categoryListData;
-  const errorMessage =
-    error &&
-    parseResponseErrorMessage(error, "Ошибка получения списка категорий");
+  const { data, isError, isLoading } = categoryListData;
 
   return (
     <>
-      <Typography variant={"subtitle1"} sx={{ textAlign: "center" }}>
-        Категории
-      </Typography>
-
       <Paper elevation={3} sx={{ p: 1, mt: 1 }}>
-        {error && <Alert severity="error">{errorMessage}</Alert>}
+        {isError && (
+          <Alert severity="error">Ошибка получения списка категорий</Alert>
+        )}
+
         {isLoading && <LoadingSpinner />}
 
-        {!isLoading &&
-          !error &&
-          (data?.length ? (
-            <NoteCategoryList categoryList={data} />
-          ) : (
-            <Alert severity="warning">
-              Вы ещё не создали ни одной категории
-            </Alert>
-          ))}
+        {data && <NoteCategoryList categoryList={data} />}
       </Paper>
+
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 1.5 }}>
+        <Button startIcon={<AddIcon />} onClick={openModalAddCategory}>
+          Добавить категорию
+        </Button>
+      </Box>
     </>
   );
 };

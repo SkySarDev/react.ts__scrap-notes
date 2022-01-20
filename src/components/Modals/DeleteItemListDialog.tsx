@@ -9,7 +9,7 @@ interface IProps {
   handleCloseModal: () => void;
   modalTitle: string;
   isLoading: boolean;
-  onClickCallback: () => void;
+  confirmCallback: () => void;
 }
 
 const DeleteItemListDialog: FC<IProps> = ({
@@ -17,7 +17,7 @@ const DeleteItemListDialog: FC<IProps> = ({
   handleCloseModal,
   modalTitle,
   isLoading,
-  onClickCallback,
+  confirmCallback,
 }): ReactElement => {
   return (
     <ModalWrapper
@@ -32,7 +32,7 @@ const DeleteItemListDialog: FC<IProps> = ({
         <LoadingButton
           variant="contained"
           loading={isLoading}
-          onClick={onClickCallback}
+          onClick={confirmCallback}
         >
           Удалить
         </LoadingButton>

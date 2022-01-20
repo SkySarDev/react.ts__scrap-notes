@@ -1,61 +1,59 @@
-import React, { FC, ReactElement, useEffect, useState } from "react";
+import React, { FC, ReactElement, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Box, Button } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-
+import { usePopupNoticeContext } from "hooks/usePopupNoticeContext";
+import { PopupNoticeMessages as popupMessages } from "constants/PopupNoticeMessages";
 import { AppRoutes } from "constants/AppRoutes";
 import { IAddCategoryUtils, IFormAddNotesValues } from "types/notesTypes";
 
 import FormAddNotesModal from "components/Modals/FormAddNotesModal";
 
 interface IProps {
+  isShowModal: boolean;
+  handleCloseModal: () => void;
   addNewCategory: (data: IFormAddNotesValues) => void;
   addCategoryUtils: IAddCategoryUtils;
 }
 
 const AddNoteCategoryBlock: FC<IProps> = ({
+  isShowModal,
+  handleCloseModal,
   addNewCategory,
   addCategoryUtils,
 }): ReactElement => {
   const navigate = useNavigate();
-  const { data, error, isLoading } = addCategoryUtils;
-  const newCategoryId = data?._id;
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
-
-  const handleModalOpen = (): void => setModalOpen(true);
-  const handleModalClose = (): void => setModalOpen(false);
+  const { showPopupNotice } = usePopupNoticeContext();
+  const { data, isSuccess, isLoading, isError } = addCategoryUtils;
 
   const handleAddCategory = (data: IFormAddNotesValues): void => {
     addNewCategory(data);
   };
 
   useEffect(() => {
-    if (error || newCategoryId) {
-      handleModalClose();
-
-      newCategoryId && navigate(`${AppRoutes.NOTES}/${newCategoryId}`);
+    if (isSuccess) {
+      showPopupNotice(popupMessages.category.add.success);
+      handleCloseModal();
+      data && navigate(`${AppRoutes.NOTES}/${data._id}`);
     }
-  }, [error, newCategoryId]);
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      showPopupNotice(popupMessages.category.add.error);
+      handleCloseModal();
+    }
+  }, [isError]);
 
   return (
-    <>
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 1.5 }}>
-        <Button startIcon={<AddIcon />} onClick={handleModalOpen}>
-          Добавить категорию
-        </Button>
-      </Box>
-
-      <FormAddNotesModal
-        isShowModal={isModalOpen}
-        handleCloseModal={handleModalClose}
-        formValues={{ title: "", body: null }}
-        submitCallback={handleAddCategory}
-        modalTitle={"Добавление категории"}
-        buttonText={"Добавить"}
-        isLoading={isLoading}
-      />
-    </>
+    <FormAddNotesModal
+      isShowModal={isShowModal}
+      handleCloseModal={handleCloseModal}
+      formValues={{ title: "", body: null }}
+      submitCallback={handleAddCategory}
+      modalTitle={"Добавление категории"}
+      buttonText={"Добавить"}
+      isLoading={isLoading}
+    />
   );
 };
 

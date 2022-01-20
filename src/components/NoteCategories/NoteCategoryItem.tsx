@@ -2,25 +2,33 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { ListItem, ListItemButton, ListItemText } from "@mui/material";
 
-import { INoteCategory } from "types/notesTypes";
+import { IFormAddNotesValues, INoteCategory } from "types/notesTypes";
 import { AppRoutes } from "constants/AppRoutes";
 
 import ListItemOptions from "components/ListItemOptions";
 
 interface IProps {
   categoryItem: INoteCategory;
-  showModalEdit: () => void;
-  showModalDelete: () => void;
-  isCurrenCategory: boolean;
+  currenCategory?: string;
+  openModalEditCategory: (data: IFormAddNotesValues, _id: string) => void;
+  openModalDeleteCategory: (id: string) => void;
 }
 
 const NoteCategoryItem: FC<IProps> = ({
   categoryItem,
-  isCurrenCategory,
-  showModalEdit,
-  showModalDelete,
+  currenCategory,
+  openModalEditCategory,
+  openModalDeleteCategory,
 }) => {
   const { _id, title } = categoryItem;
+
+  const handleModalDelete = () => {
+    openModalDeleteCategory(_id);
+  };
+
+  const handleModalEdit = () => {
+    openModalEditCategory({ title, body: null }, _id);
+  };
 
   return (
     <>
@@ -29,15 +37,15 @@ const NoteCategoryItem: FC<IProps> = ({
         disableGutters
         secondaryAction={
           <ListItemOptions
-            deleteItem={showModalDelete}
-            editItem={showModalEdit}
+            deleteItem={handleModalDelete}
+            editItem={handleModalEdit}
           />
         }
       >
         <ListItemButton
           component={Link}
           to={`${AppRoutes.NOTES}/${_id}`}
-          selected={isCurrenCategory}
+          selected={currenCategory === _id}
         >
           <ListItemText>{title}</ListItemText>
         </ListItemButton>
