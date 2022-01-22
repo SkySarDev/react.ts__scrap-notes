@@ -1,76 +1,57 @@
 import React, { FC, ReactElement, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Alert, Paper, Typography } from "@mui/material";
+import { Alert, Box, Button, Paper } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
-import { filterNotesByCategory, lastNotesSortByDate } from "utils/noteFilters";
-import { parseResponseErrorMessage } from "utils/parseResponseErrorMessage";
 import { INoteItem, INoteListData } from "types/notesTypes";
 
 import NoteList from "components/NoteItems/NoteList";
 import LoadingSpinner from "components/UI/LoadingSpinner";
-
-const lastNoteStyles = {
-  mb: 1,
-  textAlign: "center",
-  color: "#888",
-  fontStyle: "italic",
-};
+import { useActions } from "hooks/store/useActions";
+import { useFilterNoteList } from "hooks/useFilterNoteList";
 
 interface IProps {
   noteListData: INoteListData;
+  currentCategory?: string;
 }
 
-const NoteItemsBlock: FC<IProps> = ({ noteListData }): ReactElement => {
-  const { category: currentCategory } = useParams();
-  const { data, error, isLoading } = noteListData;
+const NoteItemsBlock: FC<IProps> = ({
+  noteListData,
+  currentCategory,
+}): ReactElement => {
+  const { data, isError, isLoading } = noteListData;
   const [noteList, setNoteList] = useState<INoteItem[] | null>(null);
-  const errorMessage =
-    error &&
-    parseResponseErrorMessage(error, "Ошибка получения списка заметок");
+  const { showModalAddNote } = useActions();
+  const filterList = useFilterNoteList();
 
   useEffect(() => {
     if (data) {
-      const filteredResult = currentCategory
-        ? filterNotesByCategory(data, currentCategory)
-        : lastNotesSortByDate(data);
-
-      setNoteList(filteredResult);
+      setNoteList(filterList(data, currentCategory));
     }
   }, [data, currentCategory]);
 
+  const openModalAddNote = () => showModalAddNote();
+
   return (
     <>
-      <Typography variant={"subtitle1"} sx={{ textAlign: "center" }}>
-        Заметки
-      </Typography>
-
       <Paper elevation={3} sx={{ p: 1, mt: 1 }}>
-        {error && <Alert severity="error">{errorMessage}</Alert>}
+        {isError && (
+          <Alert severity="error">Ошибка получения списка заметок</Alert>
+        )}
+
         {isLoading && <LoadingSpinner />}
 
-        {!isLoading &&
-          !error &&
-          (noteList?.length ? (
-            <>
-              {!currentCategory && (
-                <Typography variant={"body2"} sx={lastNoteStyles}>
-                  Последние заметки:
-                </Typography>
-              )}
-              <NoteList noteList={noteList} currentCategory={currentCategory} />
-            </>
-          ) : (
-            <>
-              {currentCategory ? (
-                <Alert severity="warning">
-                  В данной категории ещё нет заметок
-                </Alert>
-              ) : (
-                <Alert severity="warning">У вас ещё нет заметок</Alert>
-              )}
-            </>
-          ))}
+        {noteList && (
+          <NoteList noteList={noteList} currentCategory={currentCategory} />
+        )}
       </Paper>
+
+      {currentCategory && (
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 1.5 }}>
+          <Button startIcon={<AddIcon />} onClick={openModalAddNote}>
+            Добавить заметку
+          </Button>
+        </Box>
+      )}
     </>
   );
 };

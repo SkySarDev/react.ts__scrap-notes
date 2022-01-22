@@ -8,15 +8,12 @@ import MuiAccordionSummary, {
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 
+import { useActions } from "hooks/store/useActions";
 import { INoteItem } from "types/notesTypes";
 
-interface IProps {
-  noteItem: INoteItem;
-  expandedNote: string | false;
-  changeExpandedNote: (value: string | false) => void;
-  deleteNote: (id: string) => void;
-}
+import ListItemOptions from "components/ListItemOptions";
 
+// ToDo refactor
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
@@ -50,28 +47,40 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
+interface IProps {
+  noteItem: INoteItem;
+  expandedNote: string | false;
+  changeExpandedNote: (value: string | false) => void;
+}
+
 const NoteItem: FC<IProps> = ({
   noteItem,
   expandedNote,
   changeExpandedNote,
-  deleteNote,
 }): ReactElement => {
   const { _id, title, body } = noteItem;
+  const { showNoteDialog, showModalEditNote } = useActions();
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       changeExpandedNote(isExpanded ? panel : false);
     };
 
+  const handleDeleteItem = () => showNoteDialog(_id);
+  const handleShowModalEdit = () => showModalEditNote({ _id, title, body });
+
   return (
     <Accordion expanded={expandedNote === _id} onChange={handleChange(_id)}>
-      <AccordionSummary
-      // expandIcon={<ExpandMoreIcon />}
-      >
+      <AccordionSummary>
         <Typography>{title}</Typography>
       </AccordionSummary>
-      <AccordionDetails>
-        <Typography>{body}</Typography>
+      <AccordionDetails sx={{ display: "flex", alignItems: "start" }}>
+        <Typography sx={{ flexGrow: 1 }}>{body}</Typography>
+
+        <ListItemOptions
+          deleteItem={handleDeleteItem}
+          editItem={handleShowModalEdit}
+        />
       </AccordionDetails>
     </Accordion>
   );

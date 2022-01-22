@@ -1,13 +1,21 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
+import { Alert, Typography } from "@mui/material";
 
 import { INoteItem } from "types/notesTypes";
 
-import NoteItemContainer from "containers/Notes/NoteItemContainer";
+import NoteItem from "components/NoteItems/NoteItem";
 
 interface IProps {
   noteList: INoteItem[];
   currentCategory?: string;
 }
+
+const lastNoteStyles = {
+  mb: 1,
+  textAlign: "center",
+  color: "#888",
+  fontStyle: "italic",
+};
 
 const NoteList: FC<IProps> = ({ noteList, currentCategory }) => {
   const [expandedNote, setExpandedNote] = useState<string | false>(false);
@@ -15,18 +23,31 @@ const NoteList: FC<IProps> = ({ noteList, currentCategory }) => {
   const changeExpandedNote = (value: string | false): void =>
     setExpandedNote(value);
 
-  useEffect(() => setExpandedNote(false), [currentCategory]);
-
   return (
     <>
-      {noteList.map((note) => (
-        <NoteItemContainer
-          key={note._id}
-          noteItem={note}
-          expandedNote={expandedNote}
-          changeExpandedNote={changeExpandedNote}
-        />
-      ))}
+      {!currentCategory && (
+        <Typography variant={"body2"} sx={lastNoteStyles}>
+          Последние заметки:
+        </Typography>
+      )}
+      {noteList.length ? (
+        noteList.map((note) => (
+          <NoteItem
+            key={note._id}
+            noteItem={note}
+            expandedNote={expandedNote}
+            changeExpandedNote={changeExpandedNote}
+          />
+        ))
+      ) : (
+        <>
+          {currentCategory ? (
+            <Alert severity="warning">В данной категории ещё нет заметок</Alert>
+          ) : (
+            <Alert severity="warning">У вас ещё нет заметок</Alert>
+          )}
+        </>
+      )}
     </>
   );
 };
