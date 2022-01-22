@@ -6,7 +6,7 @@ import ModalWrapper from "components/Modals/ModalWrapper";
 
 interface IProps {
   isShowModal: boolean;
-  handleCloseModal: () => void;
+  handleCloseDialog: () => void;
   modalTitle: string;
   isLoading: boolean;
   confirmCallback: () => void;
@@ -14,19 +14,21 @@ interface IProps {
 
 const DeleteItemListDialog: FC<IProps> = ({
   isShowModal,
-  handleCloseModal,
+  handleCloseDialog,
   modalTitle,
   isLoading,
   confirmCallback,
 }): ReactElement => {
+  const handleOnClick = () => handleCloseDialog();
+
   return (
     <ModalWrapper
       isShowModal={isShowModal}
-      handleCloseModal={handleCloseModal}
+      handleCloseModal={handleCloseDialog}
       modalTitle={modalTitle}
     >
       <Box sx={{ display: "flex", gap: 2, mt: 3 }}>
-        <Button variant="contained" onClick={handleCloseModal}>
+        <Button variant="contained" onClick={handleOnClick}>
           Отмена
         </Button>
         <LoadingButton

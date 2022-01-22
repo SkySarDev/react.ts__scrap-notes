@@ -2,7 +2,7 @@ import React, { FC, ReactElement, useEffect, useState } from "react";
 import { Box, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
-import { IFormAddNotesValues } from "types/notesTypes";
+import { IAddCategoryData, IAddNoteData } from "types/modalsTypes";
 
 import ModalWrapper from "components/Modals/ModalWrapper";
 
@@ -11,9 +11,10 @@ interface IProps {
   handleCloseModal: () => void;
   modalTitle: string;
   buttonText: string;
-  formValues: IFormAddNotesValues;
-  submitCallback: (data: IFormAddNotesValues) => void;
+  formValues: IAddCategoryData | IAddNoteData;
+  submitCallback: (data: IAddNoteData) => void;
   isLoading: boolean;
+  isNote: boolean;
 }
 
 const FormAddNotesModal: FC<IProps> = ({
@@ -24,10 +25,11 @@ const FormAddNotesModal: FC<IProps> = ({
   buttonText,
   submitCallback,
   isLoading,
+  isNote,
 }): ReactElement => {
-  const initValues: IFormAddNotesValues = { title: "", body: null };
+  const initValues = { title: "", body: "" };
   const [formValuesState, setFormValuesState] =
-    useState<IFormAddNotesValues>(initValues);
+    useState<IAddNoteData>(initValues);
 
   useEffect(() => {
     setFormValuesState({
@@ -50,7 +52,6 @@ const FormAddNotesModal: FC<IProps> = ({
   const handleSubmitForm = (e: React.SyntheticEvent): void => {
     e.preventDefault();
     submitCallback(formValuesState);
-    setFormValuesState(initValues);
   };
 
   return (
@@ -71,7 +72,7 @@ const FormAddNotesModal: FC<IProps> = ({
           sx={{ width: "100%", mt: 3 }}
         />
 
-        {formValuesState.body !== null && (
+        {isNote && (
           <TextField
             autoComplete="off"
             multiline
