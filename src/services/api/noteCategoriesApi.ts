@@ -3,7 +3,8 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQueryWithReAuth } from "services/api/baseQuery";
 
 import { ApiUrls } from "constants/ApiUrls";
-import { AddNewCategoryDataType, INoteCategory } from "types/notesTypes";
+import { AddCategoryDataType, INoteCategory } from "types/notesTypes";
+import { IEditCategoryData } from "types/modalsTypes";
 
 export const noteCategoriesApi = createApi({
   reducerPath: "note-categories",
@@ -16,7 +17,7 @@ export const noteCategoriesApi = createApi({
       }),
       providesTags: () => ["NoteCategories"],
     }),
-    addCategory: build.mutation<INoteCategory, AddNewCategoryDataType>({
+    addCategory: build.mutation<INoteCategory, AddCategoryDataType>({
       query: (body) => ({
         url: ApiUrls.NOTE_CATEGORIES,
         method: "POST",
@@ -24,7 +25,7 @@ export const noteCategoriesApi = createApi({
       }),
       invalidatesTags: ["NoteCategories"],
     }),
-    updateCategory: build.mutation<INoteCategory, INoteCategory>({
+    updateCategory: build.mutation<INoteCategory, IEditCategoryData>({
       query(data) {
         const { _id, ...body } = data;
 

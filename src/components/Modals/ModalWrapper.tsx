@@ -24,10 +24,12 @@ const ModalWrapper: FC<IProps> = ({
   modalTitle,
   children,
 }): ReactElement => {
+  const handleOnClose = () => handleCloseModal();
+
   return (
     <Modal
       open={isShowModal}
-      onClose={handleCloseModal}
+      onClose={handleOnClose}
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{

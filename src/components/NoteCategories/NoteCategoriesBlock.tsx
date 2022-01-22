@@ -3,20 +3,22 @@ import { Alert, Box, Button, Paper } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 import { ICategoryListData } from "types/notesTypes";
+import { useActions } from "hooks/store/useActions";
 
 import NoteCategoryList from "components/NoteCategories/NoteCategoryList";
 import LoadingSpinner from "components/UI/LoadingSpinner";
 
 interface IProps {
   categoryListData: ICategoryListData;
-  openModalAddCategory: () => void;
 }
 
 const NoteCategoriesBlock: FC<IProps> = ({
   categoryListData,
-  openModalAddCategory,
 }): ReactElement => {
   const { data, isError, isLoading } = categoryListData;
+  const { showModalAddCategory } = useActions();
+
+  const openModalAddCategory = () => showModalAddCategory();
 
   return (
     <>

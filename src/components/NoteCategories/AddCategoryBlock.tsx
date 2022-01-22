@@ -1,37 +1,38 @@
 import React, { FC, ReactElement, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { usePopupNoticeContext } from "hooks/usePopupNoticeContext";
-import { PopupNoticeMessages as popupMessages } from "constants/PopupNoticeMessages";
+import { useActions } from "hooks/store/useActions";
+import { useAppSelector } from "hooks/store/reduxHooks";
+import { PopupNoticeMessages } from "constants/PopupNoticeMessages";
 import { AppRoutes } from "constants/AppRoutes";
-import { IAddCategoryUtils, IFormAddNotesValues } from "types/notesTypes";
+import { IAddCategoryUtils } from "types/notesTypes";
+import { IAddCategoryData } from "types/modalsTypes";
 
 import FormAddNotesModal from "components/Modals/FormAddNotesModal";
 
 interface IProps {
-  isShowModal: boolean;
-  handleCloseModal: () => void;
-  addNewCategory: (data: IFormAddNotesValues) => void;
+  addNewCategory: (data: IAddCategoryData) => void;
   addCategoryUtils: IAddCategoryUtils;
 }
 
-const AddNoteCategoryBlock: FC<IProps> = ({
-  isShowModal,
-  handleCloseModal,
+const AddCategoryBlock: FC<IProps> = ({
   addNewCategory,
   addCategoryUtils,
 }): ReactElement => {
   const navigate = useNavigate();
-  const { showPopupNotice } = usePopupNoticeContext();
+  const { isShow } = useAppSelector((state) => state.modal.category.add);
+  const { showPopup, hideModal } = useActions();
   const { data, isSuccess, isLoading, isError } = addCategoryUtils;
+  const popupMessages = PopupNoticeMessages.category.add;
 
-  const handleAddCategory = (data: IFormAddNotesValues): void => {
+  const handleAddCategory = (data: IAddCategoryData): void =>
     addNewCategory(data);
-  };
+
+  const handleCloseModal = () => hideModal({ type: "category", act: "add" });
 
   useEffect(() => {
     if (isSuccess) {
-      showPopupNotice(popupMessages.category.add.success);
+      showPopup(popupMessages.success);
       handleCloseModal();
       data && navigate(`${AppRoutes.NOTES}/${data._id}`);
     }
@@ -39,22 +40,23 @@ const AddNoteCategoryBlock: FC<IProps> = ({
 
   useEffect(() => {
     if (isError) {
-      showPopupNotice(popupMessages.category.add.error);
+      showPopup(popupMessages.error);
       handleCloseModal();
     }
   }, [isError]);
 
   return (
     <FormAddNotesModal
-      isShowModal={isShowModal}
+      isShowModal={isShow}
       handleCloseModal={handleCloseModal}
-      formValues={{ title: "", body: null }}
+      formValues={{ title: "" }}
       submitCallback={handleAddCategory}
       modalTitle={"Добавление категории"}
       buttonText={"Добавить"}
       isLoading={isLoading}
+      isNote={false}
     />
   );
 };
 
-export default AddNoteCategoryBlock;
+export default AddCategoryBlock;

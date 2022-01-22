@@ -2,33 +2,23 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { ListItem, ListItemButton, ListItemText } from "@mui/material";
 
-import { IFormAddNotesValues, INoteCategory } from "types/notesTypes";
+import { INoteCategory } from "types/notesTypes";
 import { AppRoutes } from "constants/AppRoutes";
 
 import ListItemOptions from "components/ListItemOptions";
+import { useActions } from "hooks/store/useActions";
 
 interface IProps {
   categoryItem: INoteCategory;
   currenCategory?: string;
-  openModalEditCategory: (data: IFormAddNotesValues, _id: string) => void;
-  openModalDeleteCategory: (id: string) => void;
 }
 
-const NoteCategoryItem: FC<IProps> = ({
-  categoryItem,
-  currenCategory,
-  openModalEditCategory,
-  openModalDeleteCategory,
-}) => {
+const NoteCategoryItem: FC<IProps> = ({ categoryItem, currenCategory }) => {
   const { _id, title } = categoryItem;
+  const { showCategoryDialog, showModalEditCategory } = useActions();
 
-  const handleModalDelete = () => {
-    openModalDeleteCategory(_id);
-  };
-
-  const handleModalEdit = () => {
-    openModalEditCategory({ title, body: null }, _id);
-  };
+  const handleDeleteDialog = () => showCategoryDialog(_id);
+  const handleModalEdit = () => showModalEditCategory({ _id, title });
 
   return (
     <>
@@ -37,7 +27,7 @@ const NoteCategoryItem: FC<IProps> = ({
         disableGutters
         secondaryAction={
           <ListItemOptions
-            deleteItem={handleModalDelete}
+            deleteItem={handleDeleteDialog}
             editItem={handleModalEdit}
           />
         }

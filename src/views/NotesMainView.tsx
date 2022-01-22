@@ -1,56 +1,26 @@
 import React, { FC, ReactElement } from "react";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
-import {
-  IAddCategoryUtils,
-  IAddNoteUtils,
-  ICategoryListData,
-  IFormAddNotesValues,
-  INoteListData,
-} from "types/notesTypes";
+import NoteCategoriesContainer from "containers/notes/NoteCategoriesContainer";
+import NoteItemsContainer from "containers/notes/NoteItemsContainer";
 
-import NoteCategoriesBlock from "components/NoteCategories/NoteCategoriesBlock";
-import AddNoteCategoryBlock from "components/NoteCategories/AddNoteCategoryBlock";
-import NoteItemsBlock from "components/NoteItems/NoteItemsBlock";
-import AddNoteItemBlock from "components/NoteItems/AddNoteItemBlock";
-
-interface IProps {
-  currentCategory?: string;
-  categoryListData: ICategoryListData;
-  noteListData: INoteListData;
-  addNewCategory: (data: IFormAddNotesValues) => void;
-  addCategoryUtils: IAddCategoryUtils;
-  addNewNote: (data: IFormAddNotesValues) => void;
-  addNoteUtils: IAddNoteUtils;
-}
-
-const NotesMainView: FC<IProps> = ({
-  currentCategory,
-  categoryListData,
-  noteListData,
-  addNewCategory,
-  addCategoryUtils,
-  addNewNote,
-  addNoteUtils,
-}): ReactElement => {
+const NotesMainView: FC = (): ReactElement => {
   return (
     <Grid container sx={{ mt: 3, columnGap: 3 }}>
       <Grid item md={4}>
-        <NoteCategoriesBlock categoryListData={categoryListData} />
-        <AddNoteCategoryBlock
-          addNewCategory={addNewCategory}
-          addCategoryUtils={addCategoryUtils}
-        />
+        <Typography variant={"subtitle1"} sx={{ textAlign: "center" }}>
+          Категории
+        </Typography>
+
+        <NoteCategoriesContainer />
       </Grid>
 
       <Grid item md>
-        <NoteItemsBlock noteListData={noteListData} />
-        {currentCategory && (
-          <AddNoteItemBlock
-            addNewNote={addNewNote}
-            addNoteUtils={addNoteUtils}
-          />
-        )}
+        <Typography variant={"subtitle1"} sx={{ textAlign: "center" }}>
+          Заметки
+        </Typography>
+
+        <NoteItemsContainer />
       </Grid>
     </Grid>
   );
