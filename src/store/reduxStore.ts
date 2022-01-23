@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { noteCategoriesApi } from "services/api/noteCategoriesApi";
 import { usersApi } from "services/api/usersApi";
+import { noteCategoriesApi } from "services/api/noteCategoriesApi";
 import { noteItemsApi } from "services/api/noteItemsApi";
 import { dialogReducer } from "services/modalsPopupsDialogs/dialogReducer";
 import { popupReducer } from "services/modalsPopupsDialogs/popupReducer";
@@ -22,6 +22,7 @@ export const store = configureStore({
       usersApi.middleware,
       noteItemsApi.middleware
     ),
+  devTools: process.env.NODE_ENV === "development",
 });
 
 export type RootState = ReturnType<typeof store.getState>;
