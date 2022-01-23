@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   AppBar,
   Button,
+  CircularProgress,
   Container,
   IconButton,
   Toolbar,
@@ -14,10 +15,11 @@ import { AppRoutes } from "constants/AppRoutes";
 
 interface IHeaderProps {
   user?: string;
+  isLoading: boolean;
   logout: () => void;
 }
 
-const Header: FC<IHeaderProps> = ({ user, logout }) => {
+const Header: FC<IHeaderProps> = ({ user, isLoading, logout }) => {
   return (
     <AppBar position={"static"}>
       <Container maxWidth={"md"}>
@@ -32,7 +34,9 @@ const Header: FC<IHeaderProps> = ({ user, logout }) => {
             <Link to={AppRoutes.NOTES}>Scrap Notes</Link>
           </Typography>
 
-          {user ? (
+          {isLoading ? (
+            <CircularProgress color="inherit" size={30} />
+          ) : user ? (
             <>
               <Typography variant={"subtitle1"} marginRight={1}>
                 {user}
