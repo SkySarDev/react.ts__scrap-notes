@@ -10,7 +10,7 @@ import { ApiUrls } from "constants/ApiUrls";
 import { ICustomQueryErrors } from "types/apiTypes";
 
 export const baseQuery = fetchBaseQuery({
-  baseUrl: ApiUrls.BASE,
+  baseUrl: process.env.REACT_APP_API_URL,
   credentials: "include",
   prepareHeaders: (headers) => {
     const accessToken = localStorage.getItem("token");
