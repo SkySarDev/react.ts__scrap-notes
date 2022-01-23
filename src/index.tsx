@@ -6,10 +6,10 @@ import { ThemeProvider } from "@mui/material";
 
 import { store } from "store/reduxStore";
 
-import App from "./App";
-
 import { MainTheme } from "styles/MainTheme";
-import "./index.css";
+import "styles/reset-css.css";
+
+import App from "components/App";
 
 ReactDOM.render(
   <Provider store={store}>
