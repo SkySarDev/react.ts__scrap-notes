@@ -10,7 +10,7 @@ interface IProps {
   currentCategory?: string;
 }
 
-const lastNoteStyles = {
+const recentNoteStyles = {
   mb: 1,
   textAlign: "center",
   color: "#888",
@@ -25,20 +25,22 @@ const NoteList: FC<IProps> = ({ noteList, currentCategory }) => {
 
   return (
     <>
-      {!currentCategory && (
-        <Typography variant={"body2"} sx={lastNoteStyles}>
-          Последние заметки:
-        </Typography>
-      )}
       {noteList.length ? (
-        noteList.map((note) => (
-          <NoteItem
-            key={note._id}
-            noteItem={note}
-            expandedNote={expandedNote}
-            changeExpandedNote={changeExpandedNote}
-          />
-        ))
+        <>
+          {!currentCategory && (
+            <Typography variant={"body2"} sx={recentNoteStyles}>
+              Последние заметки:
+            </Typography>
+          )}
+          {noteList.map((note) => (
+            <NoteItem
+              key={note._id}
+              noteItem={note}
+              expandedNote={expandedNote}
+              changeExpandedNote={changeExpandedNote}
+            />
+          ))}
+        </>
       ) : (
         <>
           {currentCategory ? (
