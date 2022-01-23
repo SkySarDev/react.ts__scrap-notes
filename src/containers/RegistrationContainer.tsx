@@ -6,16 +6,16 @@ import { saveToken } from "utils/tokensManager";
 
 import RegistrationView from "views/RegistrationView";
 
-interface IRegistrationContainerProps {
+interface IProps {
   refetchAuth: () => void;
 }
 
-const RegistrationContainer: FC<IRegistrationContainerProps> = ({
-  refetchAuth,
-}): ReactElement => {
-  const [registration, { data, error, isLoading }] = useRegistrationMutation();
+const RegistrationContainer: FC<IProps> = ({ refetchAuth }): ReactElement => {
+  const [registration, { data, error, isLoading, isSuccess }] =
+    useRegistrationMutation();
+  const errors = error && "data" in error ? error.data : null;
 
-  const submitRegistrationForm = (userInfo: IUserInfo) => {
+  const submitRegistrationForm = (userInfo: IUserInfo): void => {
     registration(userInfo);
   };
 
@@ -28,8 +28,9 @@ const RegistrationContainer: FC<IRegistrationContainerProps> = ({
 
   return (
     <RegistrationView
-      loading={isLoading}
-      error={error && "data" in error ? error.data.message : null}
+      isLoading={isLoading}
+      isSuccess={isSuccess}
+      errors={errors}
       submitRegistrationForm={submitRegistrationForm}
     />
   );

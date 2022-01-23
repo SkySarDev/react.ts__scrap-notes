@@ -7,7 +7,7 @@ import {
 import { removeToken, saveToken } from "utils/tokensManager";
 
 import { ApiUrls } from "constants/ApiUrls";
-import { ICustomQueryErrors } from "types/apiTypes";
+import { ICustomQueryError } from "types/apiTypes";
 
 export const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_API_URL,
@@ -21,12 +21,12 @@ export const baseQuery = fetchBaseQuery({
 
     return headers;
   },
-}) as BaseQueryFn<string | FetchArgs, unknown, ICustomQueryErrors, unknown>;
+}) as BaseQueryFn<string | FetchArgs, unknown, ICustomQueryError, unknown>;
 
 export const baseQueryWithReAuth: BaseQueryFn<
   string | FetchArgs,
   unknown,
-  ICustomQueryErrors,
+  ICustomQueryError,
   unknown
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);

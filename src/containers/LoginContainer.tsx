@@ -1,19 +1,19 @@
 import React, { FC, useEffect } from "react";
 
 import { useLoginMutation } from "services/api/usersApi";
+import { saveToken } from "utils/tokensManager";
 import { UserLoginInfo } from "types/usersTypes";
 
-import Login from "views/Login";
-import { saveToken } from "utils/tokensManager";
+import LoginView from "views/LoginView";
 
-interface ILoginContainerProps {
+interface IProps {
   refetchAuth: () => void;
 }
 
-const LoginContainer: FC<ILoginContainerProps> = ({ refetchAuth }) => {
-  const [login, { data, error, isLoading }] = useLoginMutation();
+const LoginContainer: FC<IProps> = ({ refetchAuth }) => {
+  const [login, { data, error, isLoading, isSuccess }] = useLoginMutation();
 
-  const submitLoginForm = (userInfo: UserLoginInfo) => {
+  const submitLoginForm = (userInfo: UserLoginInfo): void => {
     login(userInfo);
   };
 
@@ -25,9 +25,10 @@ const LoginContainer: FC<ILoginContainerProps> = ({ refetchAuth }) => {
   }, [data]);
 
   return (
-    <Login
+    <LoginView
       error={error && "data" in error ? error.data.message : null}
-      loading={isLoading}
+      isLoading={isLoading}
+      isSuccess={isSuccess}
       submitLoginForm={submitLoginForm}
     />
   );

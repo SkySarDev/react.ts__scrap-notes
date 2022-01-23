@@ -1,27 +1,25 @@
-import React, { FC, ReactElement, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Link as LinkRouter } from "react-router-dom";
-import { Box, Typography, Link } from "@mui/material";
+import { Alert, Box, Typography, Link } from "@mui/material";
 
 import { AppRoutes } from "constants/AppRoutes";
 import { IUserInfo } from "types/usersTypes";
-import { ICustomQueryErrorData } from "types/apiTypes";
 
 import UsersForm from "components/UsersForm";
-import RegistrationErrorBlock from "components/RegistrationErrorBlock";
 
-interface IRegistrationViewProps {
-  errors: ICustomQueryErrorData | null;
+interface IProps {
+  error: string | null;
   isLoading: boolean;
   isSuccess: boolean;
-  submitRegistrationForm: (data: IUserInfo) => void;
+  submitLoginForm: (userInfo: IUserInfo) => void;
 }
 
-const RegistrationView: FC<IRegistrationViewProps> = ({
-  errors,
+const LoginView: FC<IProps> = ({
+  error,
   isLoading,
   isSuccess,
-  submitRegistrationForm,
-}): ReactElement => {
+  submitLoginForm,
+}) => {
   const initState: IUserInfo = {
     email: "",
     login: "",
@@ -29,12 +27,12 @@ const RegistrationView: FC<IRegistrationViewProps> = ({
   };
   const [formData, setFormData] = useState(initState);
 
-  const onSubmitHandler = (e: React.SyntheticEvent) => {
+  const onSubmitHandler = (e: React.SyntheticEvent): void => {
     e.preventDefault();
-    submitRegistrationForm(formData);
+    submitLoginForm(formData);
   };
 
-  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value.trim(),
@@ -52,21 +50,25 @@ const RegistrationView: FC<IRegistrationViewProps> = ({
       sx={{ display: "flex", justifyContent: "center", textAlign: "center" }}
     >
       <Box sx={{ mt: 4 }}>
-        {errors && <RegistrationErrorBlock errors={errors} />}
+        {error && (
+          <Alert severity={"error"} sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
 
         <UsersForm
           formData={formData}
           onSubmitHandler={onSubmitHandler}
           onChangeHandler={onChangeHandler}
-          buttonText={"Регистрация"}
+          buttonText={"Войти"}
           isLoading={isLoading}
-          isLogin
+          isLogin={false}
         />
 
         <Typography>
-          Уже есть аккаунт?{" "}
-          <Link component={LinkRouter} to={AppRoutes.LOGIN}>
-            Войти
+          Нет аккаунта?{" "}
+          <Link component={LinkRouter} to={AppRoutes.REGISTRATION}>
+            Регистрация
           </Link>
         </Typography>
       </Box>
@@ -74,4 +76,4 @@ const RegistrationView: FC<IRegistrationViewProps> = ({
   );
 };
 
-export default RegistrationView;
+export default LoginView;

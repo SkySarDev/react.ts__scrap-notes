@@ -23,10 +23,8 @@ const NoteCategoriesContainer: FC = (): ReactElement => {
     useDeleteCategoryMutation();
   const { refetch } = useGetAllNotesQuery();
 
-  const addNewCategory = (data: AddCategoryDataType): void => {
+  const addNewCategory = (data: AddCategoryDataType) =>
     addCategoryToDB({ title: data.title });
-  };
-
   const updateCategory = (data: IEditCategoryData) => updateCategoryInDB(data);
   const deleteCategory = (id: string) => deleteCategoryFromDB(id);
 
