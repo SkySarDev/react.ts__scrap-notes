@@ -14,4 +14,5 @@ ReactJS, TypeScript, Redux Toolkit Query, Material UI
 
 Backend:
 ExpressJS, MongoDB, JsonWebToken
+
 GitHub: https://github.com/SkySarDev/express__scrap-notes
