@@ -1,7 +1,6 @@
 import React, { FC, ReactElement } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import { UserAuthInfo } from "types/usersTypes";
 import { AppRoutes } from "constants/AppRoutes";
 
 import NotesMainView from "views/NotesMainView";
@@ -9,14 +8,14 @@ import RegistrationContainer from "containers/RegistrationContainer";
 import LoginContainer from "containers/LoginContainer";
 
 interface IProps {
-  data?: UserAuthInfo;
+  user?: string;
   refetchAuth: () => void;
 }
 
-const AppRouter: FC<IProps> = ({ data, refetchAuth }): ReactElement => {
+const AppRouter: FC<IProps> = ({ user, refetchAuth }): ReactElement => {
   return (
     <Routes>
-      {data ? (
+      {user ? (
         <>
           <Route path={AppRoutes.NOTES} element={<NotesMainView />} />
           <Route

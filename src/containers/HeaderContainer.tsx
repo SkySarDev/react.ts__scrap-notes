@@ -1,7 +1,9 @@
 import React, { FC, ReactElement, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
-import { useLazyLogoutQuery } from "services/api/usersApi";
+import { useLazyLogoutQuery, usersApi } from "services/api/usersApi";
+import { noteCategoriesApi } from "services/api/noteCategoriesApi";
+import { noteItemsApi } from "services/api/noteItemsApi";
+import { useAppDispatch } from "hooks/store/reduxHooks";
 import { removeToken } from "utils/tokensManager";
 
 import Header from "components/Header";
@@ -15,8 +17,8 @@ const HeaderContainer: FC<IHeaderContainerProps> = ({
   user,
   isLoading,
 }): ReactElement => {
-  const navigate = useNavigate();
   const [triggerLogout, statusLogout] = useLazyLogoutQuery();
+  const dispatch = useAppDispatch();
 
   const logout = (): void => {
     removeToken();
@@ -25,7 +27,9 @@ const HeaderContainer: FC<IHeaderContainerProps> = ({
 
   useEffect(() => {
     if (statusLogout.isSuccess) {
-      navigate(0);
+      dispatch(usersApi.util.resetApiState());
+      dispatch(noteCategoriesApi.util.resetApiState());
+      dispatch(noteItemsApi.util.resetApiState());
     }
   }, [statusLogout]);
 

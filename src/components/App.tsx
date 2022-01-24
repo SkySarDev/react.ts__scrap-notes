@@ -19,7 +19,7 @@ const App: FC = (): ReactElement => {
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <AppRouter data={data} refetchAuth={refetch} />
+          <AppRouter user={data?.login} refetchAuth={refetch} />
         )}
       </Layout>
 
