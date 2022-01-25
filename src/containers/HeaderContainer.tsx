@@ -1,12 +1,9 @@
-import React, { FC, ReactElement, useEffect } from "react";
+import React, { FC, ReactElement } from "react";
 
-import { useLazyLogoutQuery, usersApi } from "services/api/usersApi";
-import { noteCategoriesApi } from "services/api/noteCategoriesApi";
-import { noteItemsApi } from "services/api/noteItemsApi";
-import { useAppDispatch } from "hooks/store/reduxHooks";
-import { removeToken } from "utils/tokensManager";
+import { useLazyLogoutQuery } from "services/api/usersApi";
 
 import Header from "components/Header";
+import { useLogout } from "hooks/useLogout";
 
 interface IHeaderContainerProps {
   user?: string;
@@ -17,23 +14,15 @@ const HeaderContainer: FC<IHeaderContainerProps> = ({
   user,
   isLoading,
 }): ReactElement => {
-  const [triggerLogout, statusLogout] = useLazyLogoutQuery();
-  const dispatch = useAppDispatch();
+  const [logoutFromDB] = useLazyLogoutQuery();
+  const appLogout = useLogout();
 
-  const logout = (): void => {
-    removeToken();
-    triggerLogout();
+  const handleLogout = (): void => {
+    logoutFromDB();
+    appLogout();
   };
 
-  useEffect(() => {
-    if (statusLogout.isSuccess) {
-      dispatch(usersApi.util.resetApiState());
-      dispatch(noteCategoriesApi.util.resetApiState());
-      dispatch(noteItemsApi.util.resetApiState());
-    }
-  }, [statusLogout]);
-
-  return <Header logout={logout} isLoading={isLoading} user={user} />;
+  return <Header logout={handleLogout} isLoading={isLoading} user={user} />;
 };
 
 export default HeaderContainer;
