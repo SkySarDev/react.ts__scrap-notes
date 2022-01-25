@@ -16,7 +16,13 @@ const NoteCategoryList: FC<IProps> = ({ categoryList }): ReactElement => {
   return (
     <>
       {categoryList.length ? (
-        <List sx={{ p: 0 }}>
+        <List
+          sx={{
+            p: 0,
+            border: "1px solid rgba(0, 0, 0, .125)",
+            borderRadius: 1,
+          }}
+        >
           {categoryList.map((categoryItem) => (
             <NoteCategoryItem
               key={categoryItem._id}

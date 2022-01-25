@@ -1,10 +1,8 @@
 import React, { FC, ReactElement } from "react";
 import { styled } from "@mui/material/styles";
 import { Typography } from "@mui/material";
-import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
-import MuiAccordionSummary, {
-  AccordionSummaryProps,
-} from "@mui/material/AccordionSummary";
+import MuiAccordion from "@mui/material/Accordion";
+import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 
@@ -13,39 +11,37 @@ import { INoteItem } from "types/notesTypes";
 
 import ListItemOptions from "components/ListItemOptions";
 
-// ToDo refactor
-const Accordion = styled((props: AccordionProps) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme }) => ({
-  border: `1px solid ${theme.palette.divider}`,
+const Accordion = styled(MuiAccordion)({
+  border: `1px solid rgba(0, 0, 0, .125)`,
   "&:not(:last-child)": {
     borderBottom: 0,
   },
   "&:before": {
     display: "none",
   },
-}));
+  "& .Mui-expanded": {
+    backgroundColor: "rgb(227, 238, 250)",
+    transition: "backgroundColor 0.5s",
+  },
+});
 
-const AccordionSummary = styled((props: AccordionSummaryProps) => (
-  <MuiAccordionSummary
-    expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
-    {...props}
-  />
-))(({ theme }) => ({
-  backgroundColor: "rgba(0, 0, 0, .03)",
+const AccordionSummary = styled(MuiAccordionSummary)({
   flexDirection: "row-reverse",
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
     transform: "rotate(90deg)",
   },
   "& .MuiAccordionSummary-content": {
-    marginLeft: theme.spacing(1),
+    ml: 1,
   },
-}));
+});
 
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: theme.spacing(2),
+const AccordionDetails = styled(MuiAccordionDetails)({
+  display: "flex",
+  alignItems: "start",
+  p: 2,
   borderTop: "1px solid rgba(0, 0, 0, .125)",
-}));
+  backgroundColor: "rgba(0, 0, 0, .025)",
+});
 
 interface IProps {
   noteItem: INoteItem;
@@ -60,6 +56,7 @@ const NoteItem: FC<IProps> = ({
 }): ReactElement => {
   const { _id, title, body } = noteItem;
   const { showNoteDialog, showModalEditNote } = useActions();
+  const isActive = expandedNote === _id;
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -70,11 +67,18 @@ const NoteItem: FC<IProps> = ({
   const handleShowModalEdit = () => showModalEditNote({ _id, title, body });
 
   return (
-    <Accordion expanded={expandedNote === _id} onChange={handleChange(_id)}>
-      <AccordionSummary>
-        <Typography>{title}</Typography>
+    <Accordion
+      disableGutters
+      elevation={0}
+      expanded={isActive}
+      onChange={handleChange(_id)}
+    >
+      <AccordionSummary
+        expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
+      >
+        <Typography sx={{ ml: 1 }}>{title}</Typography>
       </AccordionSummary>
-      <AccordionDetails sx={{ display: "flex", alignItems: "start" }}>
+      <AccordionDetails>
         <Typography sx={{ flexGrow: 1 }}>{body}</Typography>
 
         <ListItemOptions
