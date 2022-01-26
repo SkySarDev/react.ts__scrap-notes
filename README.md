@@ -1,13 +1,14 @@
-### **Work in progress**
+### **Description**
 
 Небольшое веб-приложение для заметок.
 
 На этом проекте я укрепляю знания TypeScript, Redux Toolkit Query, а также осваиваю Material UI
 
-#### **Будет сделано/исправлено**
+---------------------------------------
 
-- Сделать адаптив под планшеты/смартфоны
-- ~~Внести правки для логаута/авторизации~~
+A small web application for creating notes.
+
+In this project, I'm strengthening my knowledge of TypeScript, Redux Toolkit Query, and mastering the Material UI.
 
 ### **Demo**
 https://scrap-notes.netlify.app

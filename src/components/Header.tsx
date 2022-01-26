@@ -22,7 +22,7 @@ interface IHeaderProps {
 const Header: FC<IHeaderProps> = ({ user, isLoading, logout }) => {
   return (
     <AppBar position={"static"}>
-      <Container maxWidth={"md"}>
+      <Container maxWidth={"lg"}>
         <Toolbar disableGutters>
           <Typography
             variant={"h6"}
