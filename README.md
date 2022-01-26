@@ -14,6 +14,7 @@ In this project, I'm strengthening my knowledge of TypeScript, Redux Toolkit Que
 https://scrap-notes.netlify.app
 
 user: demo@mail.ru
+
 password: demo
 
 ### **Technology stack**
