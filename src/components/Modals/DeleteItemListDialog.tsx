@@ -27,7 +27,7 @@ const DeleteItemListDialog: FC<IProps> = ({
       handleCloseModal={handleCloseDialog}
       modalTitle={modalTitle}
     >
-      <Box sx={{ display: "flex", gap: 2, mt: 3 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 3 }}>
         <Button variant="contained" onClick={handleOnClick}>
           Отмена
         </Button>

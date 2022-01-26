@@ -79,7 +79,9 @@ const NoteItem: FC<IProps> = ({
         <Typography sx={{ ml: 1 }}>{title}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Typography sx={{ flexGrow: 1 }}>{body}</Typography>
+        <Typography sx={{ flexGrow: 1, whiteSpace: "pre-wrap" }}>
+          {body}
+        </Typography>
 
         <ListItemOptions
           deleteItem={handleDeleteItem}

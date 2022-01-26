@@ -2,7 +2,7 @@ import React, { FC, ReactElement } from "react";
 import { Backdrop, Box, Fade, Modal, Typography } from "@mui/material";
 
 const style = {
-  top: "25%",
+  top: "35%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
@@ -10,6 +10,7 @@ const style = {
   borderRadius: 1,
   boxShadow: 24,
   p: 3,
+  minWidth: 220,
 };
 
 interface IProps {

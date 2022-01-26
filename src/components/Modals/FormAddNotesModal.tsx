@@ -77,7 +77,8 @@ const FormAddNotesModal: FC<IProps> = ({
             autoComplete="off"
             multiline
             required
-            rows={3}
+            minRows={3}
+            maxRows={7}
             name="body"
             label="Текст заметки"
             value={formValuesState.body}

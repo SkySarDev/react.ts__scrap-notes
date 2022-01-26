@@ -46,7 +46,7 @@ const NoteItemsBlock: FC<IProps> = ({
       </Paper>
 
       {currentCategory && (
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 1.5 }}>
+        <Box sx={{ display: "flex", justifyContent: "center", m: 1.5 }}>
           <Button startIcon={<AddIcon />} onClick={openModalAddNote}>
             Добавить заметку
           </Button>
