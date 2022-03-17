@@ -79,7 +79,9 @@ const NoteItem: FC<IProps> = ({
         <Typography sx={{ ml: 1 }}>{title}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Typography sx={{ flexGrow: 1, whiteSpace: "pre-wrap" }}>
+        <Typography
+          sx={{ flexGrow: 1, whiteSpace: "pre-line", wordBreak: "break-word" }}
+        >
           {body}
         </Typography>
 
